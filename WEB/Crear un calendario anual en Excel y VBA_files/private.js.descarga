@@ -1,0 +1,99 @@
+var elem = document.createElement('script');
+    elem.src = 'https://quantcast.mgr.consensu.org/cmp.js';
+    elem.async = true;
+    elem.type = "text/javascript";
+    var scpt = document.getElementsByTagName('script')[0];
+    scpt.parentNode.insertBefore(elem, scpt);
+    (function() {
+    var gdprAppliesGlobally = false;
+    function addFrame() {
+        if (!window.frames['__cmpLocator']) {
+        if (document.body) {
+            var body = document.body,
+                iframe = document.createElement('iframe');
+            iframe.style = 'display:none';
+            iframe.name = '__cmpLocator';
+            body.appendChild(iframe);
+        } else {
+            // In the case where this stub is located in the head,
+            // this allows us to inject the iframe more quickly than
+            // relying on DOMContentLoaded or other events.
+            setTimeout(addFrame, 5);
+        }
+        }
+    }
+    addFrame();
+    function cmpMsgHandler(event) {
+        var msgIsString = typeof event.data === "string";
+        var json;
+        if(msgIsString) {
+        json = event.data.indexOf("__cmpCall") != -1 ? JSON.parse(event.data) : {};
+        } else {
+        json = event.data;
+        }
+        if (json.__cmpCall) {
+        var i = json.__cmpCall;
+        window.__cmp(i.command, i.parameter, function(retValue, success) {
+            var returnMsg = {"__cmpReturn": {
+            "returnValue": retValue,
+            "success": success,
+            "callId": i.callId
+            }};
+            event.source.postMessage(msgIsString ?
+            JSON.stringify(returnMsg) : returnMsg, '*');
+        });
+        }
+    }
+    window.__cmp = function (c) {
+        var b = arguments;
+        if (!b.length) {
+        return __cmp.a;
+        }
+        else if (b[0] === 'ping') {
+        b[2]({"gdprAppliesGlobally": gdprAppliesGlobally,
+            "cmpLoaded": false}, true);
+        } else if (c == '__cmp')
+        return false;
+        else {
+        if (typeof __cmp.a === 'undefined') {
+            __cmp.a = [];
+        }
+        __cmp.a.push([].slice.apply(b));
+        }
+    }
+    window.__cmp.gdprAppliesGlobally = gdprAppliesGlobally;
+    window.__cmp.msgHandler = cmpMsgHandler;
+    if (window.addEventListener) {
+        window.addEventListener('message', cmpMsgHandler, false);
+    }
+    else {
+        window.attachEvent('onmessage', cmpMsgHandler);
+    }
+    })();
+    window.__cmp('init', {
+    		'Language': 'es',
+		'Initial Screen Title Text': 'Tu privacidad es importante para nosotros',
+		'Initial Screen Reject Button Text': 'NO ACEPTO',
+		'Initial Screen Accept Button Text': 'ACEPTO',
+		'Initial Screen Purpose Link Text': 'M&aacute;s informaci&oacute;n',
+		'Purpose Screen Title Text': 'Tu privacidad es importante para nosotros',
+		'Purpose Screen Body Text': 'Puede establecer sus preferencias de consentimiento y determinar c&oacute;mo desea que se utilicen sus datos seg&uacute;n los fines que se detallan a continuaci&oacute;n. Puede establecer sus preferencias con respecto a nosotros independientemente de las de los socios externos. Cada objetivo tiene una descripci&oacute;n para que sepa c&oacute;mo se usan sus datos.',
+		'Purpose Screen Vendor Link Text': 'Lista de partners',
+		'Purpose Screen Cancel Button Text': 'Cancelar',
+		'Purpose Screen Save and Exit Button Text': 'Guardar y salir',
+		'Vendor Screen Title Text': 'Tu privacidad es importante para nosotros',
+		'Vendor Screen Body Text': 'Puede configurar las preferencias de consentimiento para los terceros externos individuales con los que trabajamos a continuaci&oacute;n. Expanda cada elemento de la lista de la compa&ntilde;&iacute;a para ver para qu&eacute; fines usan los datos para ayudarlo a tomar sus decisiones. En algunos casos, las compa&ntilde;&iacute;as pueden usar sus datos sin pedir su consentimiento en funci&oacute;n de sus intereses leg&iacute;timos. Puede hacer clic en los enlaces de sus pol&iacute;ticas de privacidad para obtener m&aacute;s informaci&oacute;n y para objetar dicho procesamiento.',
+		'Vendor Screen Accept All Button Text': 'ACEPTAR TODO',
+		'Vendor Screen Reject All Button Text': 'RECHAZAR TODO',
+		'Vendor Screen Purposes Link Text': 'Volver a los propósitos',
+		'Vendor Screen Cancel Button Text': 'Cancelar',
+		'Vendor Screen Save and Exit Button Text': 'Guardar y salir',
+		'Initial Screen Body Text': 'En esta web se utilizan cookies propias y de terceros para mejorar nuestros servicios y mostrarte publicidad relacionada con tus preferencias, para personalizar los anuncios y contenido mediante el an&aacute;lisis de tus h&aacute;bitos de navegaci&oacute;n. Puedes obtener m&aacute;s informaci&oacute;n, o bien conocer c&oacute;mo cambiar la configuraci&oacute;n, en nuestra <a href="http://www.karmany.net/index.php/ayuda-web/2-soporte-faq-contacto#Cookies">Pol&iacute;tica de Cookies</a>.',
+		'Initial Screen Body Text Option': 0,
+		'UI Layout': 'banner',
+		'No Option': false,
+		'Publisher Name': 'Nombre',
+		'Publisher Purpose IDs': [1],
+		'Consent Scope': 'service',
+		'Default Value for Toggles': 'on',
+    });

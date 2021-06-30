@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<!-- saved from url=(0099)http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba -->
+<html prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#" xml:lang="es-es" lang="es-es" data-lt-installed="true"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./Crear un calendario anual en Excel y VBA_files/cmpui-banner.js.descarga" integrity="sha256-kPYthtVl1oPNjp1VSY8+Qtu7M960IRyGrsm9YzUr/No=" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+<meta name="HandheldFriendly" content="true">
+<meta name="apple-mobile-web-app-capable" content="YES">
+<!--<base href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba">--><base href=".">
+	
+	<meta name="keywords" content="excel, vba, calendario, office">
+	<meta name="rights" content="Todos los derechos reservados">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@karmanyNET">
+	<meta name="twitter:creator" content="@karmanyNET">
+	<meta name="author" content="karmany">
+	<meta name="description" content="Cómo crear un calendario anual en Excel y usando VBA. Se explica al detalle el código usado y se puede descargar el ejemplo.">
+	<title>Crear un calendario anual en Excel y VBA</title>
+	<link href="http://www.karmany.net/templates/karmany/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="http://www.karmany.net/component/search/?Itemid=107&amp;catid=26&amp;id=297&amp;format=opensearch" rel="search" title="Buscar karmany NET" type="application/opensearchdescription+xml">
+	<link href="./Crear un calendario anual en Excel y VBA_files/style.css" rel="stylesheet" type="text/css">
+	<link href="./Crear un calendario anual en Excel y VBA_files/plg_fontarticle10.css" rel="stylesheet" type="text/css">
+	<link href="./Crear un calendario anual en Excel y VBA_files/phocadownload.css" rel="stylesheet" type="text/css">
+	<link href="./Crear un calendario anual en Excel y VBA_files/phocadownload(1).css" rel="stylesheet" type="text/css">
+	<link href="./Crear un calendario anual en Excel y VBA_files/style(1).css" rel="stylesheet" type="text/css">
+	<script src="./Crear un calendario anual en Excel y VBA_files/sdk.js.descarga" async="" crossorigin="anonymous"></script><script id="facebook-jssdk" src="./Crear un calendario anual en Excel y VBA_files/sdk.js(1).descarga"></script><script id="twitter-wjs" src="./Crear un calendario anual en Excel y VBA_files/widgets.js.descarga"></script><script src="./Crear un calendario anual en Excel y VBA_files/cmp.js.descarga" async="" type="text/javascript"></script><script async="" src="./Crear un calendario anual en Excel y VBA_files/analytics.js.descarga"></script><script type="text/javascript" async="" src="./Crear un calendario anual en Excel y VBA_files/recaptcha__es.js.descarga"></script><script src="./Crear un calendario anual en Excel y VBA_files/jcomments-v2.3.js.descarga" type="text/javascript"></script>
+	<script src="./Crear un calendario anual en Excel y VBA_files/ajax.js.descarga" type="text/javascript"></script>
+	<script src="./Crear un calendario anual en Excel y VBA_files/article_font.js.descarga" type="text/javascript"></script>
+	<script src="./Crear un calendario anual en Excel y VBA_files/jquery.min.js.descarga" type="text/javascript"></script>
+	<script src="./Crear un calendario anual en Excel y VBA_files/jquery-noconflict.js.descarga" type="text/javascript"></script>
+	<script src="./Crear un calendario anual en Excel y VBA_files/jquery-migrate.min.js.descarga" type="text/javascript"></script>
+	<script src="./Crear un calendario anual en Excel y VBA_files/bootstrap.min.js.descarga" type="text/javascript"></script>
+	<script src="./Crear un calendario anual en Excel y VBA_files/recaptcha.min.js.descarga" type="text/javascript"></script>
+	<script src="./Crear un calendario anual en Excel y VBA_files/api.js.descarga" type="text/javascript"></script>
+	<script type="text/javascript">
+jQuery(function($){ initTooltips(); $("body").on("subform-row-add", initTooltips); function initTooltips (event, container) { container = container || document;$(container).find(".hasTooltip").tooltip({"html": true,"container": "body"});} });
+	</script>
+	<meta property="og:title" content="Crear un calendario anual en Excel y VBA">
+	<meta property="og:type" content="article">
+	<meta property="og:image" content="http://www.karmany.net/images/2014/10-12/excel-desplegable-year.png">
+	<meta property="og:url" content="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba">
+	<meta property="og:site_name" content="karmany NET">
+	<meta property="og:description" content="Cómo crear un calendario anual en Excel y usando VBA. Se explica al detalle el código usado y se puede descargar el ejemplo.">
+
+<link rel="stylesheet" href="./Crear un calendario anual en Excel y VBA_files/template.css" type="text/css">
+<link href="https://feeds.feedburner.com/karmanynet" rel="alternate" type="application/rss+xml" title="RSS 2.0">
+
+<script>
+var monthNames = new makeArray(12);
+monthNames[0] = "enero";
+monthNames[1] = "febrero";
+monthNames[2] = "marzo";
+monthNames[3] = "abril";
+monthNames[4] = "mayo";
+monthNames[5] = "junio";
+monthNames[6] = "julio";
+monthNames[7] = "agosto";
+monthNames[8] = "septiembre";
+monthNames[9] = "octubre";
+monthNames[10] = "noviembre";
+monthNames[11] = "diciembre";
+
+var dayNames = new makeArray(7);
+dayNames[0] = "Domingo,";
+dayNames[1] = "Lunes,";
+dayNames[2] = "Martes,";
+dayNames[3] = "Mi&eacute;rcoles,";
+dayNames[4] = "Jueves,";
+dayNames[5] = "Viernes,";
+dayNames[6] = "S&aacute;bado,";
+
+var now = new Date();
+var year = now.getYear();
+
+if (year < 2000) year = year + 1900;
+
+function makeArray(len)
+{
+for (var i = 0; i < len; i++) this[i] = null;
+this.length = len;
+}
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24649441-1', 'karmany.net');
+  ga('send', 'pageview');
+
+</script>
+<script type="text/javascript" async="async" src="./Crear un calendario anual en Excel y VBA_files/private.js.descarga"></script>
+<style>.qc-cmp-persistent-link{display: none !important;}</style>
+
+<script async="async" src="./Crear un calendario anual en Excel y VBA_files/f.txt"></script>
+
+<style type="text/css">
+:root .adsbygoogle
+{ display: none !important; }
+:root *[lwdvu50][hidden] { display: none !important; }</style><script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script><script charset="utf-8" src="./Crear un calendario anual en Excel y VBA_files/button.93a0c25c2d2f3081c705c98c2d9dec0e.js.descarga"></script><style type="text/css">.qc-cmp-ui-container{background:rgba(33,41,52,.85)!important;bottom:0!important;display:flex!important;left:0!important;opacity:0;overflow-y:scroll;position:fixed!important;right:0!important;top:0!important;transition:opacity .15s ease;visibility:hidden;will-change:visibility,opacity;z-index:2147483647!important;transition:background .6s;-webkit-transition:background .6s}.qc-cmp-alert-publisher-logo{height:50px;width:150px;padding:0}.qc-cmp-alert-main-messaging{padding-bottom:15px}.qc-cmp-ui-container.softOptIn{visibility:hidden;background:none}.softOptIn{overflow-y:hidden!important}.qc-cmp-ui.soft-opt-in-alert{display:flex;display:-webkit-flex;display:-ms-flexbox;visibility:visible;flex-direction:column;-ms-flex-direction:column;-webkit-flex-direction:column;justify-content:space-between;-webkit-justify-content:space-between;-ms-flex-pack:distribute;align-items:center;-webkit-align-items:center;-ms-flex-align:center;margin:auto;z-index:214748369!important;padding:60px 30px;text-align:center;overflow:hidden;top:0;width:100%;height:100%;max-width:770px;min-width:320px!important;max-height:340px!important;min-height:240px!important;box-shadow:0 1px 3px rgba(33,41,52,.75)}.soft-opt-in-alert .qc-cmp-publisher-logo{margin-top:0;margin:25px auto;padding-top:0}.soft-opt-in-alert .qc-cmp-main-messaging{margin:25px auto}.qc-cmp-ui{background-color:#368bd6;bottom:0;box-sizing:border-box;color:#fff;font-family:Arial,Verdana,sans-serif;justify-content:space-between;left:0;max-height:100vh;min-height:300px!important;opacity:0;overflow-x:hidden;overflow-y:scroll;position:fixed;right:0;visibility:hidden;will-change:visibility,opacity;-webkit-font-smoothing:antialiased}.qc-cmp-ui-content{display:flex;padding:60px;overflow-y:scroll}.qc-cmp-publisher-logo{display:block;margin:0 0 24px;max-height:90px;max-width:170px;width:auto}.qc-cmp-alert-publisher-logo-image{display:block;margin:auto;max-height:50px;width:100%;max-width:150px;box-sizing:content-box;width:auto}.qc-cmp-title{color:#fff;font-size:34px;font-weight:700;line-height:41px;margin:0 0 24px}.qc-cmp-main-messaging,.qc-cmp-messaging{font-size:14px;font-weight:400;line-height:21px;margin:0;-webkit-font-smoothing:antialiased}.qc-cmp-messaging{margin-bottom:20px}.qc-cmp-buttons{display:flex!important;align-content:center;flex-direction:column;justify-content:center;padding-left:60px}.qc-cmp-button{background-color:#fff;border:2px solid #fff;border-radius:3px;box-shadow:0 1px 1px 0 rgba(0,0,0,.2);box-sizing:border-box;color:#368bd6;cursor:pointer!important;font-family:Arial,sans-serif;font-size:14px;font-weight:600;height:55px!important;letter-spacing:2px;line-height:34px;margin:0 0 15px;padding:0 13px;text-align:center;text-decoration:none;text-transform:uppercase;transition:all .2s ease-in-out;white-space:nowrap;-webkit-font-smoothing:antialiased}.qc-cmp-button:hover{background-color:#1e4b73;color:#fff}.qc-cmp-button.qc-cmp-secondary-button{background-color:#eee;color:#999;border-color:transparent}.qc-cmp-button.qc-cmp-secondary-button:hover{background-color:#fff;color:#368bd6}.qc-cmp-buttons .qc-cmp-button{min-width:315px!important}.qc-cmp-alt-action,.qc-cmp-alt-action:not([href]):not([tabindex]){color:#fff;cursor:pointer;text-align:center;text-decoration:underline;font-size:14px;line-height:21px;margin:0 15px}.qc-cmp-alt-action:hover{opacity:.6}.qc-cmp-alt-buttons{align-self:center;margin:30px 0 0;line-height:normal}.qc-cmp-alt-buttons .qc-cmp-alt-action{margin:0}.qc-cmp-alt-buttons .qc-cmp-alt-action+.qc-cmp-alt-action{padding-left:20px;margin-left:20px;border-left:1px solid #fff}.qc-cmp-consent-content{padding:60px 60px 0}.qc-cmp-qc-link-container{position:absolute;bottom:0;right:0;font-size:10px!important;display:flex;align-items:center;padding:0 30px 30px 0}.qc-cmp-qc-link{margin-left:5px}.qc-cmp-qc-link #qcLogo{width:70px}.qc-cmp-link-text{margin:1em 0}.qc-cmp-back{font-weight:600;left:65px;position:absolute;text-align:left;text-decoration:none;top:25px}.qc-cmp-back:before{content:"";display:inline-block;position:relative;top:1px;right:6px;width:12px;height:12px;background:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 5l6 6 6-6'/%3E%3C/svg%3E") 50% no-repeat;transform:rotate(90deg)}.qc-cmp-purposes-header{display:flex;justify-content:space-between}.qc-cmp-bold-messaging{margin:10px 0 20px;font-size:14px;font-weight:700;line-height:normal}.qc-cmp-button-small{flex:0 1 auto;height:40px!important;font-size:12px}.qc-cmp-google-purposes-table,.qc-cmp-vendors-purposes-table{border-bottom:1px solid #fff;margin-bottom:20px}.qc-cmp-purpose-row{border:1px solid #fff;border-bottom:none;padding:10px 20px;position:relative}.qc-cmp-purpose-info{position:relative}.qc-cmp-purpose-description{margin:10px 0;width:calc(100% - 200px);line-height:normal}.qc-cmp-purpose-actions{align-items:center;bottom:20px;display:flex;position:absolute;right:0;top:20px}.qc-cmp-show-vendors-link{font-size:12px}.qc-cmp-show-google-vendors-link{font-size:12px;text-decoration:none}.qc-cmp-toggler{display:inline-block;margin:0 0 0 20px;width:60px}.qc-cmp-toggle{background-color:#1e4b73;border:1px solid #1e4b73;border-radius:11px;cursor:pointer;display:block;height:16px;margin:0 auto;position:relative;width:34px}.qc-cmp-toggle-off{background-color:#368bd6}.qc-cmp-toggle-switch{background-color:#fff;border-radius:50%;display:inline-block;height:16px;position:absolute;right:18px;top:0;transition:all .1s ease-in-out 0ms;width:16px}.qc-cmp-toggle-on .qc-cmp-toggle-switch{right:0}.qc-cmp-toggle-status{color:#fff;font-family:Arial,Verdana,sans-serif;font-size:12px;font-weight:700;opacity:.8;margin:0;padding:6px 0 0;text-align:center}.qc-cmp-scrolling-section{border-bottom:1px solid hsla(0,0%,100%,.3);border-top:1px solid hsla(0,0%,100%,.3);height:calc(100vh - 400px);max-height:1000px;min-height:200px!important;overflow-y:scroll}.qc-cmp-scrolling-section table:first-child{border-top:none}.qc-cmp-nav-bar{display:flex;width:100%;justify-content:flex-end}.qc-cmp-table{border:1px solid hsla(0,0%,100%,.3);border-collapse:collapse;color:#fff;font-family:Arial,Verdana,sans-serif;font-size:14px;width:100%;margin:0 0 20px}.qc-cmp-table tr{background:none}.qc-cmp-table-header{color:hsla(0,0%,100%,.8);font-size:14px;font-weight:700;line-height:30px;letter-spacing:1px;margin:0;padding:0 20px;text-align:left;text-transform:uppercase;border:none}.qc-cmp-table-row{border:none;border-top:1px solid hsla(0,0%,100%,.3);padding:10px 20px}.qc-cmp-table-row:last-child{border-bottom:1px solid hsla(0,0%,100%,.3)}.qc-cmp-publisher-purposes-table{margin-bottom:20px}.qc-cmp-purposes-vendor-list{margin:20px 0 10px}.qc-hide-table{display:none}.qc-cmp-company-cell{font-weight:700;line-height:45px;padding:0 20px}.qc-cmp-enabled-cell{text-align:right;padding:0 20px}.qc-cmp-nav-bar.qc-cmp-bottom{flex-wrap:wrap}.qc-cmp-left-nav-link{flex:1 1 auto;line-height:75px;position:relative;text-align:left;white-space:nowrap}.qc-cmp-cancel{flex:0 1 100px;line-height:75px}.qc-cmp-save-and-exit{flex:1 1 200px;margin:10px 0;max-width:265px}.qc-cmp-sub-title-container{display:flex;flex:0 0 auto}.qc-cmp-sub-title{flex:1 1 auto;font-family:Arial,Verdana,sans-serif;font-size:24px;font-weight:600;line-height:24px;margin:10px 20px 20px 0}.qc-cmp-horizontal-buttons{align-content:center;display:flex!important;flex:0 1 auto!important;flex-wrap:wrap!important;justify-content:center!important;margin:-7px 0 7px!important}.qc-cmp-horizontal-buttons .qc-cmp-button{flex:1 0 auto!important;max-width:300px!important;margin:7px 7px 0!important}.qc-cmp-vendor-row{height:45px!important}.qc-cmp-on-off-column{width:50px}.qc-cmp-on-off-column .qc-cmp-table-header{padding:0}.qc-cmp-dropdown-column{width:50px}.qc-cmp-arrow-down{width:16px;height:16px;margin:auto;background:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23FFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 5l6 6 6-6'/%3E%3C/svg%3E") 50% no-repeat}.qc-cmp-flip-up{transform:rotate(180deg)}.qc-cmp-vendor-info-content{padding:0 20px 15px;line-height:16px}.qc-cmp-bold{font-weight:700}.qc-cmp-vendor-info-list-title{font-weight:700;line-height:1.5;font-size:14px;margin:12px 0 0}.qc-cmp-vendor-info-list{line-height:1.5;list-style-type:none;margin:0;padding:0}@media screen and (max-width:850px){.qc-cmp-qc-link-container{padding:0 5px 5px 0}.qc-cmp-ui-content{flex-wrap:wrap}.qc-cmp-initial-info{width:100%}.qc-cmp-buttons{width:100%;padding:60px 0 0}.qc-cmp-buttons .qc-cmp-button{width:100%}.qc-cmp-consent-content{padding:60px 30px 0}.qc-cmp-back{left:35px}}.qc-cmp-ui-showing{overflow:hidden}.qc-cmp-showing{opacity:1;visibility:visible}.qc-cmp-hidden{display:none}.qc-cmp-close-icon{background:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M.5.5l23 23m0-23l-23 23' fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-miterlimit='10'/%3E%3Cpath fill='none' d='M0 0h24v24H0z'/%3E%3C/svg%3E") 50% no-repeat;border:none;height:38px;outline:none;position:absolute;top:17px;right:24px;width:38px}.qc-cmp-close-icon-first-view{right:20px;position:absolute;top:20px}.qc-cmp-close-icon:hover{cursor:pointer}</style><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_dialog_advanced{border-radius:8px;padding:10px}.fb_dialog_content{background:#fff;color:#373737}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{left:5px;right:auto;top:5px}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{height:100%;left:0;margin:0;overflow:visible;position:absolute;top:-10000px;transform:none;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{background:none;height:auto;min-height:initial;min-width:initial;width:auto}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{clear:both;color:#fff;display:block;font-size:18px;padding-top:20px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .4);bottom:0;left:0;min-height:100%;position:absolute;right:0;top:0;width:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_mobile .fb_dialog_iframe{position:sticky;top:0}.fb_dialog_content .dialog_header{background:linear-gradient(from(#738aba), to(#2c4987));border-bottom:1px solid;border-color:#043b87;box-shadow:white 0 1px 1px -1px inset;color:#fff;font:bold 14px Helvetica, sans-serif;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:linear-gradient(from(#4267B2), to(#2a4887));background-clip:padding-box;border:1px solid #29487d;border-radius:3px;display:inline-block;line-height:18px;margin-top:3px;max-width:85px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{background:none;border:none;color:#fff;font:bold 12px Helvetica, sans-serif;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #4a4a4a;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f5f6f7;border:1px solid #4a4a4a;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-position:50% 50%;background-repeat:no-repeat;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}</style></head>
+<body class="">
+<div class="topbar">
+	<div class="topbar-center">
+		<div class="topbar-date-today" title="Fecha de hoy con javascript">
+			<script type="text/javascript">
+				<!--
+				document.write( "- " + dayNames[now.getDay()] + " " + now.getDate() + " de " + monthNames[now.getMonth()] + " " +" de " + year + " -");
+				//-->
+			</script>- Miércoles, 11 de marzo  de 2020 -
+		</div>
+				<div class="moduletable topbar-links">
+						<ul class="nav menu mod-list">
+<li class="item-114"><a href="http://www.karmany.net/">Inicio</a></li><li class="item-253"><a href="http://www.karmany.net/ayuda-web/2-soporte-faq-contacto">Contacto</a></li></ul>
+		</div>
+	
+		<div class="clear-both"></div>
+	</div>
+</div>
+
+<div class="pag">
+	<div class="logo">
+		<div class="imglogo">
+			<a href="http://www.karmany.net/"><img src="./Crear un calendario anual en Excel y VBA_files/logo.png" alt="Logo" title="Logo y enlace a www.karmany.net"></a>
+			<div>« Aprender, enseñar y compartir conocimientos »</div>
+		</div>
+		<div class="fndredes">
+							<div>		<div class="moduletable">
+						
+
+<div class="custom">
+	<div id="aredes">
+				<a href="https://twitter.com/karmanyNET" target="_blank" title="Síguenos en Twitter"><img src="./Crear un calendario anual en Excel y VBA_files/social.png" alt="Twitter" style="margin: 0 -160px 0 0;border:0;"></a>
+				<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" target="_blank" title="" rel="publisher"><img src="./Crear un calendario anual en Excel y VBA_files/social.png" alt="" style="margin: 0 -200px 0 40px;border:0;"></a>
+				<a href="https://www.facebook.com/karmanyNET" target="_blank" title="Síguenos en Facebook"><img src="./Crear un calendario anual en Excel y VBA_files/social.png" alt="Facebook" style="margin: 0 -80px 0 -80px;border:0;"></a>
+				<a href="https://feeds.feedburner.com/karmanynet" target="_blank" title="Subscríbete en tu lector feed a los últimos artículos de este sitio"><img src="./Crear un calendario anual en Excel y VBA_files/social.png" alt="Icono RSS" style="margin: 0 -40px 0 -120px;border:0;"></a>
+				<a href="https://www.youtube.com/user/karmanynet" target="_blank" title="Síguenos en Youtube"><img src="./Crear un calendario anual en Excel y VBA_files/social.png" alt="Youtube" style="margin: 0 0 0 -160px;border:0;"></a>
+			</div></div>
+		</div>
+	</div>
+						<div class="clear-both"></div>
+					<div class="moduletable_buscar">
+						<div class="search_buscar">
+	<form action="http://www.karmany.net/programacion-software" method="post" class="form-inline">
+		<label for="mod-search-searchword" class="element-invisible"> </label> <input name="searchword" id="mod-search-searchword" maxlength="200" class="inputbox search-query" type="text" size="20" value="buscar..." onblur="if (this.value==&#39;&#39;) this.value=&#39;buscar...&#39;;" onfocus="if (this.value==&#39;buscar...&#39;) this.value=&#39;&#39;;"> <input type="image" alt="Buscar" class="button" src="./Crear un calendario anual en Excel y VBA_files/searchButton.gif" onclick="this.form.searchword.focus();">		<input type="hidden" name="task" value="search">
+		<input type="hidden" name="option" value="com_search">
+		<input type="hidden" name="Itemid" value="107">
+	</form>
+</div>
+		</div>
+	
+		</div>
+		<div class="clear-both"></div>
+	</div>
+	
+	<div class="barra_mnu">
+		<nav>
+		<div class="barra_enlaces">
+				<ul>
+					<li class="portada"><a href="http://www.karmany.net/" title="Página principal">Home</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/ayuda-web" title="Artículos relacionados con esta web">Ayuda</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/programacion-software" title="Programación Software">Software</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/programacion-web" title="Programación Web">Web</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/medio-social" title="Medio Social">Social</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/ingenieria-inversa" title="Ingeniería Inversa">Ing. Inversa</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/diseno-grafico" title="Diseño gráfico">Diseño</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/proteccion-software" title="Protección Software">Protección</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/seguridad" title="Seguridad">Seguridad</a></li>
+					<li class="oculta-opinion"><a href="http://www.karmany.net/opinion-personal" title="Opinión personal">Opinión</a></li>
+					<li class="menudesplegable">
+						<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#">Síguenos »</a>
+						<ul>
+							<li><a target="_blank" href="https://twitter.com/karmanyNET" title="Twitter">En Twitter</a></li>
+							<li><a target="_blank" href="https://www.facebook.com/karmanyNET" title="Facebook">En Facebook</a></li>
+							<li><a target="_blank" href="https://www.youtube.com/user/karmanynet" title="Youtube">Vídeos Youtube</a></li>
+						</ul>
+					</li>
+				</ul>
+		</div>
+		<div class="clear-both"></div>
+		</nav>
+	</div>
+	
+	<div id="hoja">  
+		<div id="hoja-content">
+			<div id="system-message-container">
+	</div>
+
+						<div id="leftcolumn" class="fullcolumn">
+														<div class="module_menu">
+			<div>
+				<div>
+					<div>
+													<h3>Menú Principal</h3>
+											<ul class="nav menu mod-list">
+<li class="item-101 default"><a href="http://www.karmany.net/">Inicio</a></li><li class="item-167"><a href="http://www.karmany.net/buscar-en-la-web">Buscar en la Web</a></li><li class="item-196"><a href="http://www.karmany.net/ayuda-web">AYUDA</a></li></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div class="module_menu">
+			<div>
+				<div>
+					<div>
+													<h3>Contenido</h3>
+											<ul class="nav menu mod-list">
+<li class="item-104"><a href="http://www.karmany.net/opinion-personal">Opinión personal</a></li><li class="item-105"><a href="http://www.karmany.net/ingenieria-inversa">Ingeniería Inversa</a></li><li class="item-106"><a href="http://www.karmany.net/proteccion-software">Protección software</a></li><li class="item-107 current active"><a href="http://www.karmany.net/programacion-software">Programación software</a></li><li class="item-108"><a href="http://www.karmany.net/programacion-web">Programación Web</a></li><li class="item-109"><a href="http://www.karmany.net/sistema-operativo">Sistema Operativo</a></li><li class="item-110"><a href="http://www.karmany.net/hardware">Hardware</a></li><li class="item-111"><a href="http://www.karmany.net/diseno-grafico">Diseño gráfico</a></li><li class="item-223"><a href="http://www.karmany.net/medio-social">Medio social</a></li><li class="item-224"><a href="http://www.karmany.net/seguridad">Seguridad</a></li></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div class="module_menu">
+			<div>
+				<div>
+					<div>
+													<h3>Zona descarga</h3>
+											<ul class="nav menu mod-list">
+<li class="item-126"><a href="http://www.karmany.net/zona-descarga">Zona de descarga</a></li></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+							</div>
+			
+									
+						<div id="maincolumn_full">
+					
+									<div class="user1user2">
+						<div>
+															<div>		<div class="moduletable">
+						<div class="ads">
+	
+<div style="text-align:center;">
+
+
+<ins class="adsbygoogle" style="display:block;" data-ad-client="ca-pub-4669759041027576" data-ad-format="auto" data-ad-type="image" lwdvu50="" hidden=""></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div></div>		</div>
+	</div>
+																											</div>
+					</div>
+							
+					<div id="maindivider"></div>
+											
+								<div id="content-article">
+				 
+					<div class="ud-esta-aqui">
+<div class="breadcrumbs">
+<span class="showHere">Está aquí: </span><a href="http://www.karmany.net/" class="pathway">Inicio</a> <img src="./Crear un calendario anual en Excel y VBA_files/arrow.png" alt=""> <a href="http://www.karmany.net/programacion-software" class="pathway">Programación software</a> <img src="./Crear un calendario anual en Excel y VBA_files/arrow.png" alt=""> <a href="http://www.karmany.net/programacion-software/26-office" class="pathway">Office</a> <img src="./Crear un calendario anual en Excel y VBA_files/arrow.png" alt=""> <span>Crear un calendario anual en Excel y VBA</span></div>
+</div>
+					<script type="text/javascript">var tgs = new Array('div','p','tr','td','table','ul','ol','li'); </script><script type="text/javascript">init_common_datos(15,30,6,"px",1);</script><script type="text/javascript">init_individual_datos(1);</script><div class="item-page">
+
+	<h1>
+			Crear un calendario anual en Excel y VBA		</h1>
+
+
+
+
+
+	<div class="article-info">
+
+	<span class="create">
+	Creado: Domingo, 26 Octubre 2014	</span>
+
+	<span class="createdby">
+					Escrito por karmany		</span>
+	<span class="hits">
+	Visto: 31145	</span>
+					</div>
+
+
+
+
+        <div style="clear:both;"></div>
+        <div class="itp-share">
+             	<div class="itp-share-tw">
+                	<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 70px; height: 20px;" title="Twitter Tweet Button" src="./Crear un calendario anual en Excel y VBA_files/tweet_button.0ab153032b20288d9a500659d8c7ba17.es.html" data-url="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba"></iframe><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div><div class="itp-share-fbl"><div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div></div></div></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.7";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+            <div class="fb-like fb_iframe_widget" data-href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba" data-share="0" data-layout="button" data-width="90" data-show-faces="false" data-colorscheme="light" data-action="like" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=&amp;color_scheme=light&amp;container_width=0&amp;href=http%3A%2F%2Fwww.karmany.net%2Fprogramacion-software%2F26-office%2F297-crear-un-calendario-anual-en-excel-y-vba&amp;layout=button&amp;locale=es_ES&amp;sdk=joey&amp;share=false&amp;show_faces=false&amp;width=90"><span style="vertical-align: bottom; width: 84px; height: 20px;"><iframe name="f37fa2497882ef4" width="90px" height="1000px" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="./Crear un calendario anual en Excel y VBA_files/like.html" style="border: none; visibility: visible; width: 84px; height: 20px;" class=""></iframe></span></div></div>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="plg_fa_karmany"><span class="plg_fa_karmany_visual"><a title="Aumentar tamaño de texto. Discapacidad visual." href="javascript:modify_size(&#39;articlepxfontsize&#39;,2,&#39;1&#39;)"></a></span><span class="plg_fa_karmany_menos"><a title="Disminuir tamaño de texto" href="javascript:modify_size(&#39;articlepxfontsize&#39;,-1,&#39;1&#39;)"></a></span><span class="plg_fa_karmany_igual"><a title="Reestablecer tamaño de texto" href="javascript:modify_size(&#39;articlepxfontsize&#39;,0,&#39;1&#39;)"></a></span><span class="plg_fa_karmany_mas"><a title="Aumentar tamaño de texto" href="javascript:modify_size(&#39;articlepxfontsize&#39;,1,&#39;1&#39;)"></a></span><span style="line-height: 175%;font-size:11px;font-family:Arial;font-weight:bold;margin-right:2px;">Tamaño de letra:</span></div><div class="karmany_clearboth"></div><div id="articlepxfontsize1">
+
+
+<h2>Un calendario para realizar turnos. Versión 1.0.1</h2>
+<p><img style="float:left;margin:10px;" class="img_borde" title="Desplegable en Excel mostrando años" src="./Crear un calendario anual en Excel y VBA_files/excel-desplegable-year.png" alt="Excel desplegable">Para mí, <strong>Excel + VBA (Visual Basic for Applications)</strong> componen una herramienta poderosísimamente poderosísima. Si ya de por sí, una hoja de cálculo nos permite realizar tareas complejas, añadir la posibilidad de programar con Visual Basic permite generar asombrosas aplicaciones y obtener resultados que una sola persona, y a mano, tardaría días en conseguir (lo digo basándome en mi experiencia). Aunque siga haciendo hincapié en ello, pienso que Microsoft Office + VBA es tan poderoso que estoy plenamente convencido que muchas empresas no se pasan al software libre por lo que ambas conforman.</p>
+<p>Hace un tiempo, unas trabajadoras de una empresa que hacían turnos, me mostraron el cuadrante anual que llevaban y cuando vi el enorme tiempo que perdían en "dibujar" el calendario, <strong>les propuse crear un calendario anual que se dibujara automáticamente</strong>. Les dije:</p>
+ 
+<p class="codesin">Ustedes únicamente seleccionarán el año del calendario que quieran y <strong>Excel automáticamente dibujará el año completo</strong>, mostrando los meses, días, el día actual (lunes,...,domingo), pintará el color de fondo de las celdas <em>sábado y domingo</em> y finalmente comprobará si el año es o no bisiesto para mostrar o no el día 29 de febrero.</p>
+<p>Como fue un código muy sencillo de hacer (lo difícil ha sido escribir después este artículo explicándolo paso a paso) y que os puede ser muy útil a muchos, voy a poneos en descarga el archivo <em>Excel + Macros</em>, (si no quieres saber nada del código, puedes dirigirte al final del artículo a la zona de descarga) y para los que queréis adaptar el código, voy a explicar resumidamente los pasos que seguí para crearlo.</p>
+<h2>Crear archivo Excel para Macros</h2>
+<p><strong>El archivo lo voy a crear compatible con Excel 2007 - Excel 2013</strong>. Lo primero que debes hacer es <strong>crear un archivo Excel habilitado para macros</strong> para que podamos crear código Visual Basic. Lo siguiente es pensar en el diseño. Yo lo tenía bastante claro en mi cabeza: trabajar con 2 hojas, poner en la hoja principal un desplegable arriba a la izquierda para elegir el año, y según esa elección, se creará automáticamente el calendario.</p>
+<h3>Hoja Meses</h3>
+<p>Cuando creas el archivo Excel, por defecto, se crean tres hojas. Elimino la tercera y en la segunda, que llamo <em>Meses</em>, voy a <a title="Lista desplegable en Excel 2007" href="http://www.karmany.net/programacion-software/26-office/24-excel2007-lista-desplegable" target="_blank">crear el contenido de la lista desplegable</a> y otros datos que luego explicaré. Esta es la vista previa:</p>
+<p style="text-align: center;"><img class="img_borde" title="Asignar nombre a rango" src="./Crear un calendario anual en Excel y VBA_files/hoja-meses-asignar-nombre-a-rango.png" alt="Excel rango"></p>
+<p>Asigno al rango C2:C13 el nombre <em>AÑOS</em> y al rango A2:A13 el nombre <em>MESES</em>.</p>
+<h3>Hoja principal, Calendario</h3>
+<p>Me dirijo ahora a la hoja principal, que llamo <em>Calendario</em>. Al desplegable donde se encuentran los años, voy a asignarle el rango que he nombrado en la hoja <em>Meses</em> como <em>AÑOS</em>. De este modo, a partir de ahora, podremos seleccionar entre 2014-2025.</p>
+<h2>Diseño del Calendario</h2>
+<p>Ahora <strong>voy dibujando el calendario pensando en su usabilidad</strong>, en la distinción de los meses, bloqueando paneles para que el nombre de usuario y otros datos sean siempre visibles, bloqueando la hoja para que usuarios menos experimentados puedan modificar partes importantes y finalmente intentando que se vea un trabajo cuidado y profesional. El diseño final lo puedes ver en el ejemplo en descarga.</p>
+<p>Los principales pasos que sigo son:</p>
+<ol>
+<li>En el desplegable, selecciono el año 2014 (por ejemplo) y <strong>dibujo el calendario totalmente vacío</strong> y de fondo blanco para todo ese año. Le doy grosor a las líneas de los meses, añado 5 usuarios inventados y a la celda que contiene el desplegable con el año, le pongo una celda vacía a su derecha para que el desplegable se pueda seleccionar cuando nos desplacemos con la barra hacia la derecha.</li>
+<li>Inmovilizo los paneles para que el nombre de los usuarios esté siempre visible.</li>
+<li>La parte superior de todos los meses la divido en 2 partes excepto el mes de febrero que la divido en 3. A los meses impares les doy un fondo grisáceo, estas tres partes son:
+<ol>
+<li>Nombre del mes (mira AH1:AU1)</li>
+<li>Una celda que únicamente se utilizará en el mes de febrero (mira la celda AV1) y sirve para <strong>calcular el número de días de dicho mes</strong>. Más abajo explico el código.</li>
+<li>Escribe el año que se ha seleccionado en el desplegable (por ejemplo, mira AW1:BI1)</li>
+</ol>
+</li>
+<li>Pongo las fórmulas Excel que seguidamente comento y el código VBA.</li>
+</ol>
+<h3>Cálculo de días del mes de febrero</h3>
+<p>Utilizo la celda AV1 y el código es el siguiente:</p>
+<p class="code">=DIA(FECHA($A$1;BUSCARV($AH$1;Meses!$A$2:$B$13;2;FALSO)+1;0))</p><p>
+</p><div style="text-align:center;">
+<ins class="adsbygoogle" style="display:block;" data-ad-client="ca-pub-4669759041027576" data-ad-format="auto" data-ad-type="text_image" data-color-border="FFFFFF" data-color-bg="FFFFFF" data-color-link="0088CC" data-color-text="555555" data-color-url="AAAAAA" lwdvu50="" hidden=""></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div><p></p>
+<p>La parte de BUSCARV devuelve, buscando en la hoja Meses, el número que corresponde al mes. Pensarás que para qué quiero saber qué mes numérico es febrero si ya sabemos que corresponde al valor 2. Yo te pongo esa fórmula porque puede valerte en un futuro para <strong>calcular el valor numérico de cualquier mes desde Excel y sin VBA</strong>.</p>
+<h3>El día numérico de un mes</h3>
+<p>Pienso que este es el valor más importante. Me refiero a todos los números, observa el rango de celdas de C3 hasta ND3 para entenderlo. Esos números no son valores enteros, sino que son fechas y esto es muy importante para calcular posteriormente los días festivos. Por ejemplo, ¿cómo se calcula el 2 de enero? De esta forma:</p>
+<p class="code">=FECHA($A$1;BUSCARV($C$1;Meses!$A$2:$B$13;2;FALSO);DIA(C3)+1)</p>
+<p>Es decir, en la celda D3 existe una fecha que, por ejemplo, para el año 2014 sería: 02/01/2014. Como puedes observar, la fórmula suma un día al día anterior (DIA(C3)+1) para poder realizar un copia-pega en todo el mes y no tener que escribirlos uno a uno. ¿Por qué no aparece la fecha y se muestra un número? Porque he puesto un formato personalizado a la celda.</p>
+<h3>El día de la semana</h3>
+<p>Este código Excel es muy importante porque calcula qué día de la semana es una fecha determinada: lunes, martes, miércoles, jueves, viernes, sábado o domingo.</p>
+<p class="code">=SI(C3&lt;&gt;"";DIASEM(FECHA($A$1;BUSCARV($C$1;Meses!$A$2:$B$13;2;FALSO);C3));"")</p>
+<h2>Código VBA</h2>
+<p>El código Visual Basic es muy sencillo. Para no repetir código he creado varias funciones que pueden ser muy útiles, por ejemplo, para calcular el número de usuarios que hay, utilizo este sencillo código con la única precaución de que tras el último de ellos tienes que dejar la siguiente celta vacía:</p>
+<pre class="vb" style="font-family:monospace;">&nbsp;
+<span style="color: #E56717; font-weight: bold;">Private</span> <span style="color: #E56717; font-weight: bold;">Function</span> NumeroTotalFilas() <span style="color: #151B8D; font-weight: bold;">As</span> <span style="color: #F660AB; font-weight: bold;">Integer</span>
+    <span style="color: #008000;">'Calcula el número de líneas:
+</span>    <span style="color: #8D38C9; font-weight: bold;">For</span> linea = 4 <span style="color: #8D38C9; font-weight: bold;">To</span> 500
+        <span style="color: #8D38C9; font-weight: bold;">If</span> Range(<span style="color: #800000;">"B"</span> &amp; linea).Value = <span style="color: #800000;">""</span> <span style="color: #8D38C9; font-weight: bold;">Then</span> <span style="color: #E56717; font-weight: bold;">Exit</span> <span style="color: #8D38C9; font-weight: bold;">For</span>
+    <span style="color: #8D38C9; font-weight: bold;">Next</span> linea
+    NumeroTotalFilas = linea - 1
+<span style="color: #8D38C9; font-weight: bold;">End</span> <span style="color: #E56717; font-weight: bold;">Function</span>
+&nbsp;</pre>
+<p>La siguiente función devuelve si un día es festivo o no. Por defecto, solo pone festivos los sábados y domingos pero tú puedes añadir cualquier otro día. Esto es importante porque las celdas de estos días serán rellenadas de&nbsp;<span class="fondo_azul">color azul</span>.</p>
+<pre class="vb" style="font-family:monospace;">&nbsp;
+<span style="color: #E56717; font-weight: bold;">Public</span> <span style="color: #E56717; font-weight: bold;">Function</span> DiaFestivo(Fecha <span style="color: #151B8D; font-weight: bold;">As</span> <span style="color: #F660AB; font-weight: bold;">Date</span>) <span style="color: #151B8D; font-weight: bold;">As</span> <span style="color: #F660AB; font-weight: bold;">Boolean</span>
+    <span style="color: #008000;">'vbSunday (1), vbMonday (2), vbTuesday (3), vbWednesday (4)
+</span>    <span style="color: #008000;">'vbThursday (5), vbFriday (6), vbSaturday (7)
+</span>    
+    <span style="color: #8D38C9; font-weight: bold;">Select</span> <span style="color: #8D38C9; font-weight: bold;">Case</span> Weekday(Fecha)
+        <span style="color: #8D38C9; font-weight: bold;">Case</span> vbSaturday, vbSunday
+            DiaFestivo = <span style="color: #00C2FF; font-weight: bold;">True</span>
+        <span style="color: #8D38C9; font-weight: bold;">Case</span> <span style="color: #8D38C9; font-weight: bold;">Else</span>
+            DiaFestivo = <span style="color: #00C2FF; font-weight: bold;">False</span>
+    <span style="color: #8D38C9; font-weight: bold;">End</span> <span style="color: #8D38C9; font-weight: bold;">Select</span>
+<span style="color: #8D38C9; font-weight: bold;">End</span> <span style="color: #E56717; font-weight: bold;">Function</span>
+&nbsp;</pre>
+<p>Como pongo en los comentarios, tú puedes poner en festivo cualquier otro día del siguiente modo:</p>
+<pre class="vb" style="font-family:monospace;">&nbsp;
+<span style="color: #008000;">'Pon aquí los días del año que tú quieres que sean Festivos
+</span><span style="color: #008000;">'Por ejemplo, el 24 y 25 de diciembre:
+</span><span style="color: #8D38C9; font-weight: bold;">If</span> Day(Fecha) = <span style="color: #800000;">"24"</span> <span style="color: #8D38C9; font-weight: bold;">And</span> Month(Fecha) = 12 <span style="color: #8D38C9; font-weight: bold;">Then</span> DiaFestivo = <span style="color: #00C2FF; font-weight: bold;">True</span>
+<span style="color: #8D38C9; font-weight: bold;">If</span> Day(Fecha) = <span style="color: #800000;">"25"</span> <span style="color: #8D38C9; font-weight: bold;">And</span> Month(Fecha) = 12 <span style="color: #8D38C9; font-weight: bold;">Then</span> DiaFestivo = <span style="color: #00C2FF; font-weight: bold;">True</span>
+&nbsp;</pre>
+<p>La subrutina <em>pintar_calendario()</em> rellena de&nbsp;<span class="fondo_azul">color azul</span> todos los días festivos del año y el resto de código creo que está bien explicado en los comentarios del código fuente. Finalmente, he protegido todo el libro y hojas con una contraseña: <em>KARMANY.NET</em> para que los códigos Excel no puedan ser modificados de forma involuntaria. También he creado un código cuando se inicia el libro, que protege con contraseña todo el libro. Espero que pueda serte útil.</p>
+<p style="text-align: center;"><a title="Página de Facebook de karmanyNET" href="https://www.facebook.com/karmanyNET" target="_blank"><img class="img_borde" title="Calendario en Excel con VBA y enlace a Facebook" src="./Crear un calendario anual en Excel y VBA_files/calendario-excel-vba.png" alt="Excel Calendario"></a></p>
+<h2>Descarga del archivo</h2>
+<p>Recuerda siempre descargar tus archivos desde fuentes fiables. Te voy a poner el valor MD5 y tamaño del archivo para que lo verifiques:</p>
+<h3>Datos del archivo zip en descarga:</h3>
+<table class="tabla"><caption>CalendarioExcelVBA.zip</caption>
+<thead>
+<tr><th>
+<h3>Nombre del archivo</h3>
+</th><th>
+<h3>Tamaño (bytes)</h3>
+</th><th>
+<h3>MD5</h3>
+</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>CalendarioExcelVBA.zip</td>
+<td>40.221 bytes</td>
+<td>4eeb35892c9d5a98209e376e817fbfac</td>
+</tr>
+</tbody>
+</table>
+<h3>Datos del archivo Excel para macros. Zip descomprimido:</h3>
+<table class="tabla"><caption>CalendarioExcelVBA.xlsm</caption>
+<thead>
+<tr><th>
+<h3>Nombre del archivo</h3>
+</th><th>
+<h3>Tamaño (bytes)</h3>
+</th><th>
+<h3>MD5</h3>
+</th><th>
+<h3>Compatible</h3>
+</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>CalendarioExcelVBA.xlsm</td>
+<td>47.690 bytes</td>
+<td>b0a0f539bdbe45d9e96830d37389f6ac</td>
+<td>Excel 2007-2013</td>
+</tr>
+</tbody>
+</table>
+<p>Enlace desde Mega: <a title="Descargar Calendario para Excel" href="https://goo.gl/oOemiF" target="_blank">CalendarioExcelVBA.zip, 1.0.1 versión</a></p>
+<div style="text-align:center;">
+<ins class="adsbygoogle" style="display:block;" data-ad-client="ca-pub-4669759041027576" data-ad-format="auto" data-ad-type="text_image" data-color-border="FFFFFF" data-color-bg="FFFFFF" data-color-link="0088CC" data-color-text="555555" data-color-url="AAAAAA" lwdvu50="" hidden=""></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div></div>
+        <div style="clear:both;"></div>
+        <div class="itp-share">
+             	<div class="itp-share-tw">
+                	<iframe id="twitter-widget-1" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 70px; height: 20px;" title="Twitter Tweet Button" src="./Crear un calendario anual en Excel y VBA_files/tweet_button.0ab153032b20288d9a500659d8c7ba17.es(1).html" data-url="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba"></iframe><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div><div class="itp-share-fbl"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.7";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+            <div class="fb-like fb_iframe_widget" data-href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba" data-share="0" data-layout="button" data-width="90" data-show-faces="false" data-colorscheme="light" data-action="like" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=&amp;color_scheme=light&amp;container_width=0&amp;href=http%3A%2F%2Fwww.karmany.net%2Fprogramacion-software%2F26-office%2F297-crear-un-calendario-anual-en-excel-y-vba&amp;layout=button&amp;locale=es_ES&amp;sdk=joey&amp;share=false&amp;show_faces=false&amp;width=90"><span style="vertical-align: bottom; width: 84px; height: 20px;"><iframe name="f2c8e4188c7619" width="90px" height="1000px" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="./Crear un calendario anual en Excel y VBA_files/like(1).html" style="border: none; visibility: visible; width: 84px; height: 20px;" class=""></iframe></span></div></div>
+        </div>
+        <div style="clear:both;"></div>
+        <ul class="pager pagenav">
+	<li class="previous">
+		<a class="hasTooltip" title="" aria-label="Artículo anterior: No se encontró el archivo VBA6.dll en Excel 2007" href="http://www.karmany.net/programacion-software/26-office/247-no-se-encontro-el-archivo-vba6-dll-en-excel-2007" rel="prev" data-original-title="No se encontró el archivo VBA6.dll en Excel 2007">
+			<span class="icon-chevron-left" aria-hidden="true"></span> <span aria-hidden="true">Anterior</span>		</a>
+	</li>
+</ul>
+
+		<span class="modified">
+	Última actualización: Domingo, 26 Octubre 2014	</span>
+
+<script type="text/javascript">
+<!--
+var jcomments=new JComments(297, 'com_content','/component/jcomments/');
+jcomments.setList('comments-list');
+//-->
+</script>
+<div id="jc">
+<div id="comments"><h4>Comentarios <a class="refresh" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" title="Refrescar lista de comentarios" onclick="jcomments.showPage(297,&#39;com_content&#39;,0);return false;">&nbsp;</a></h4>
+<div class="comments-list" id="comments-list-0">
+		<div class="even" id="comment-item-1367">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1367">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1367, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1367, -1);return false;"></a>
+<span class="vote-good">+1</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1367" id="comment-1367">#</a>
+<span class="comment-author">Javier</span>
+<span class="comment-date">25-12-2015 21:01</span>
+<div class="comment-body" id="comment-body-1367">Una consulta, intento insertar una columna a la derecha de los usuarios, justo antes del mes de Enero de manera que me permita tener un dato mas de cada empleado, pero cada vez que añado una columna ya no me pone de color azul ningun dia festivo al cambiar el año.<br>En la funcion pintar_calendar<span style="font-size:0;padding:0;margin:0;"> </span>io() modifico columna = 4 To 370 para controlar la columna nueva añadida, pero no funciona.</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1367); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1367,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1367); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+	</div>
+	<div class="comments-list" id="comments-list-1367">
+		<div class="odd" id="comment-item-1370">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1370">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1370, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1370, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1370" id="comment-1370">#</a>
+<span class="comment-author">Editor</span>
+<span class="comment-date">26-12-2015 23:00</span>
+<div class="comment-body" id="comment-body-1370">Le echo un vistazo en cuanto pueda</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1370); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1370,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1370); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+	</div>
+	<div class="comments-list" id="comments-list-1370">
+		<div class="even" id="comment-item-1372">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1372">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1372, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1372, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1372" id="comment-1372">#</a>
+<span class="comment-author">Javier</span>
+<span class="comment-date">27-12-2015 11:58</span>
+<div class="comment-body" id="comment-body-1372">Otra modificacion que hice logicamente es en la parte de limpiar el calendario, modificando logicamente la columna por la que empieza, quedando de la siguiente manera:<br><br>'Limpia todo el calendario:<br> ActiveSheet.Ran<span style="font-size:0;padding:0;margin:0;"> </span>ge("D2:ND" &amp; NumeroTotalFila<span style="font-size:0;padding:0;margin:0;"> </span>s()).Select</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1372); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1372,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1372); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+		</div>
+		<div class="odd" id="comment-item-1373">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1373">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1373, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1373, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1373" id="comment-1373">#</a>
+<span class="comment-author">Javier</span>
+<span class="comment-date">27-12-2015 12:01</span>
+<div class="comment-body" id="comment-body-1373">Otro dato, si entro en el codigo VB y lo ejecuto, es en ese momento cuando se actualizan los dias festivos en el calendario.</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1373); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1373,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1373); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+		</div>
+		<div class="even" id="comment-item-1374">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1374">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1374, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1374, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1374" id="comment-1374">#</a>
+<span class="comment-author">Javier</span>
+<span class="comment-date">27-12-2015 13:11</span>
+<div class="comment-body" id="comment-body-1374">Solucionado, dejo la solucion porsi a alguien mas le sucede algo similar: <br>El problema logicamente es que no llegaba a ejecutar la funcion pintar_calendar<span style="font-size:0;padding:0;margin:0;"> </span>io, por lo que el error era que no entraba en la parte de comprobacion correspondiente al dia 28 o 29 de Febrero. El problema era que no modifique la columna de comprobacion en el IF, quedando el codigo asi:<br><br>'Este código muestra u oculta el día 29 de febrero:<br> If ActiveSheet.Ran<span style="font-size:0;padding:0;margin:0;"> </span>ge("AW1").Value = "28" Then</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1374); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1374,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1374); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+	</div>
+	<div class="comments-list" id="comments-list-1374">
+		<div class="odd" id="comment-item-1376">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1376">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1376, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1376, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1376" id="comment-1376">#</a>
+<span class="comment-author">karmany</span>
+<span class="comment-date">28-12-2015 10:48</span>
+<div class="comment-body" id="comment-body-1376">Genial, gracias por el aporte. No he tenido tiempo de verlo antes.<br>Un saludo Javier.</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1376); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1376,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1376); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+		</div>
+	</div>
+	</div>
+	</div>
+		<div class="even" id="comment-item-1340">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1340">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1340, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1340, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1340" id="comment-1340">#</a>
+<span class="comment-author">SERGIO</span>
+<span class="comment-date">15-12-2015 11:53</span>
+<div class="comment-body" id="comment-body-1340">Una consulta cuando pinta el calendario el formato de celdas de días festivos solo se aplica a la fila 4 el resto de fila los días festivos deja el tipo de letra en color negro y no en blanco como en la fila 4, ¿como se podría arreglar eso?.<br><br>Saludos</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1340); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1340,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1340); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+	</div>
+	<div class="comments-list" id="comments-list-1340">
+		<div class="odd" id="comment-item-1344">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1344">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1344, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1344, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1344" id="comment-1344">#</a>
+<span class="comment-author">karmany</span>
+<span class="comment-date">16-12-2015 06:56</span>
+<div class="comment-body" id="comment-body-1344">Cuando agreges filas nuevas, hazlo copiando una que esté bien (una original) y pegándola. Así se guardarán los formatos originales.</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1344); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1344,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1344); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+	</div>
+	<div class="comments-list" id="comments-list-1344">
+		<div class="even" id="comment-item-1369">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1369">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1369, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1369, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1369" id="comment-1369">#</a>
+<span class="comment-author">Sergio</span>
+<span class="comment-date">26-12-2015 18:20</span>
+<div class="comment-body" id="comment-body-1369">Buenas Karmany, he realizado lo de copiar y pegar nuevas filas, lo guardo pero en cuanto cambio de año me sigue cambiando el formato en los días festivos. Solo mantiene el formato de días festivos en la fila 4 de la 5 en adelante lo cambia.</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1369); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1369,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1369); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+	</div>
+	<div class="comments-list" id="comments-list-1369">
+		<div class="odd" id="comment-item-1371">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1371">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1371, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1371, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1371" id="comment-1371">#</a>
+<span class="comment-author">Editor</span>
+<span class="comment-date">26-12-2015 23:02</span>
+<div class="comment-body" id="comment-body-1371">Lo miraré. Te responderé lo antes que pueda.</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1371); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1371,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1371); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+	</div>
+	<div class="comments-list" id="comments-list-1371">
+		<div class="even" id="comment-item-1377">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1377">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1377, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1377, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1377" id="comment-1377">#</a>
+<span class="comment-author">karmany</span>
+<span class="comment-date">28-12-2015 13:11</span>
+<div class="comment-body" id="comment-body-1377">Sergio estoy mirando lo que dices. Tienes que tener presente varias cosas:<br>1.- El código para calcular el número de filas que existen comprueba el texto de la celda. Esto significa que todas las celdas que tú quieras que tengan un formato deben tener algo escrito en la columna B.<br>2.- POr lo de antes, justo después de la última fila, debe estar la columna BX (donde X es un número entero) vacía de texto.<br>Fíjate que el modo de calcular el número de filas se realiza con esto, que puedes ver más arriba en el artículo:<br><span class="code">Código:</span><code><br>Private Function NumeroTotalFilas() As Integer<br> 'Calcula el número de líneas:<br> For linea = 4 To 500<br> If Range("B" &amp; linea).Value = "" Then Exit For<br> Next linea<br> NumeroTotalFilas = linea - 1<br>End Function<br></code></div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1377); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1377,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1377); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+		<div class="odd" id="comment-item-1161">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1161">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1161, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1161, -1);return false;"></a>
+<span class="vote-good">+1</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1161" id="comment-1161">#</a>
+<span class="comment-author">Juan</span>
+<span class="comment-date">23-06-2015 02:52</span>
+<div class="comment-body" id="comment-body-1161">Felicitaciones por el gran aporte. te sigo en pagina web....saludos</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1161); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1161,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1161); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+		</div>
+		<div class="even" id="comment-item-1084">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1084">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1084, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1084, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1084" id="comment-1084">#</a>
+<span class="comment-author">DIEGO</span>
+<span class="comment-date">03-04-2015 04:58</span>
+<div class="comment-body" id="comment-body-1084">Estimado,<br>Excelente trabajo, consulta deseo modificarlo y me pide contraseña, te lo agradezco!!!</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1084); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1084,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1084); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+	</div>
+	<div class="comments-list" id="comments-list-1084">
+		<div class="odd" id="comment-item-1085">
+<div class="rbox">
+<div class="comment-box">
+<span class="comments-vote">
+	<span id="comment-vote-holder-1085">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-good" title="¡Buen comentario!" onclick="jcomments.voteComment(1085, 1);return false;"></a><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" class="vote-poor" title="¡Comentario deficiente!" onclick="jcomments.voteComment(1085, -1);return false;"></a>
+<span class="vote-none">0</span>
+	</span>
+</span>
+<a class="comment-anchor" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#comment-1085" id="comment-1085">#</a>
+<span class="comment-author">Luis</span>
+<span class="comment-date">03-04-2015 15:48</span>
+<div class="comment-body" id="comment-body-1085">Contraseña:<br>KARMANY.NET</div>
+<span class="comments-buttons">
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1085); return false;">Responder</a>
+ | <a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.showReply(1085,1); return false;">Responder con una citación</a> | 
+<a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" onclick="jcomments.quoteComment(1085); return false;">Citar</a>
+</span>
+</div><div class="clear"></div>
+</div>
+		</div>
+	</div>
+</div>
+<div id="comments-list-footer"><a class="refresh" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" title="Refrescar lista de comentarios" onclick="jcomments.showPage(297,&#39;com_content&#39;,0);return false;">Refrescar lista de comentarios</a></div>
+</div>
+<h4>Escribir un comentario</h4>
+<div class="comments-policy">Antes de publicar un comentario, usted debe aceptar nuestras condiciones de uso: <a href="http://www.karmany.net/ayuda-web/2-soporte-faq-contacto" target="_blank" title="Condiciones de uso">Condiciones de uso</a>. Debido al spam, todos los comentarios serán moderados pero se revisan normalmente diariamente.</div>
+<a id="addcomments" href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#addcomments"></a>
+<form id="comments-form" name="comments-form" action="javascript:void(null);">
+<p>
+	<span>
+		<input id="comments-form-name" type="text" name="name" value="" maxlength="20" size="22" tabindex="1">
+		<label for="comments-form-name">Nombre (requerido)</label>
+	</span>
+</p>
+<p>
+	<span>
+		<div class="smiles"><img src="./Crear un calendario anual en Excel y VBA_files/laugh.gif" alt=":D" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/lol.gif" alt=":lol:" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/smile.gif" alt=":-)" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/wink.gif" alt=";-)" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/cool.gif" alt="8)" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/normal.gif" alt=":-|" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/whistling.gif" alt=":-*" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/redface.gif" alt=":oops:" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/sad.gif" alt=":sad:" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/cry.gif" alt=":cry:" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/surprised.gif" alt=":o" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/confused.gif" alt=":-?" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/sick.gif" alt=":-x" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/shocked.gif" alt=":eek:" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/sleeping.gif" alt=":zzz" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/tongue.gif" alt=":P" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/rolleyes.gif" alt=":roll:" class="smile"><img src="./Crear un calendario anual en Excel y VBA_files/unsure.gif" alt=":sigh:" class="smile"></div><textarea id="comments-form-comment" name="comment" cols="65" rows="8" tabindex="5"></textarea><div class="grippie"><span class="counter"> <span>1000</span>  simbolos</span></div>
+	</span>
+</p>
+<p>
+    <span>
+        	</span></p><div id="dynamic_recaptcha_1" class="class=&quot;&quot; g-recaptcha" data-sitekey="6LcrVc8SAAAAAHIuvWb6y-i4SUazDhzGeYs3EslX" data-theme="dark" data-size="normal" data-tabindex="0" data-callback="" data-expired-callback="" data-error-callback="" data-recaptcha-widget-id="0"><div style="width: 304px; height: 78px;"><div><iframe src="./Crear un calendario anual en Excel y VBA_files/anchor.html" width="304" height="78" role="presentation" name="a-d8rawzdjw7k8" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div></div>    
+<p></p>
+<div id="comments-form-buttons">
+	<div class="btn" id="comments-form-send"><div><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" tabindex="7" onclick="jcomments.saveComment();return false;" title="Enviar (Ctrl+Enter)">Enviar</a></div></div>
+	<div class="btn" id="comments-form-cancel" style="display:none;"><div><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" tabindex="8" onclick="return false;" title="Cancelar">Cancelar</a></div></div>
+	<div style="clear:both;"></div>
+</div>
+<div>
+	<input type="hidden" name="object_id" value="297">
+	<input type="hidden" name="object_group" value="com_content">
+</div>
+</form>
+<script type="text/javascript">
+<!--
+function JCommentsInitializeForm()
+{
+	var jcEditor = new JCommentsEditor('comments-form-comment', true);
+	jcEditor.initSmiles('/components/com_jcomments/images/smilies/');
+	jcEditor.addSmile(':D','laugh.gif');
+	jcEditor.addSmile(':lol:','lol.gif');
+	jcEditor.addSmile(':-)','smile.gif');
+	jcEditor.addSmile(';-)','wink.gif');
+	jcEditor.addSmile('8)','cool.gif');
+	jcEditor.addSmile(':-|','normal.gif');
+	jcEditor.addSmile(':-*','whistling.gif');
+	jcEditor.addSmile(':oops:','redface.gif');
+	jcEditor.addSmile(':sad:','sad.gif');
+	jcEditor.addSmile(':cry:','cry.gif');
+	jcEditor.addSmile(':o','surprised.gif');
+	jcEditor.addSmile(':-?','confused.gif');
+	jcEditor.addSmile(':-x','sick.gif');
+	jcEditor.addSmile(':eek:','shocked.gif');
+	jcEditor.addSmile(':zzz','sleeping.gif');
+	jcEditor.addSmile(':P','tongue.gif');
+	jcEditor.addSmile(':roll:','rolleyes.gif');
+	jcEditor.addSmile(':sigh:','unsure.gif');
+	jcEditor.addCounter(1000, '', ' simbolos', 'counter');
+	jcomments.setForm(new JCommentsForm('comments-form', jcEditor));
+}
+
+if (window.addEventListener) {window.addEventListener('load',JCommentsInitializeForm,false);}
+else if (document.addEventListener){document.addEventListener('load',JCommentsInitializeForm,false);}
+else if (window.attachEvent){window.attachEvent('onload',JCommentsInitializeForm);}
+else {if (typeof window.onload=='function'){var oldload=window.onload;window.onload=function(){oldload();JCommentsInitializeForm();}} else window.onload=JCommentsInitializeForm;} 
+//-->
+</script>
+<div id="comments-footer" align="center"><a href="http://www.joomlatune.com/" title="JComments" target="_blank">JComments</a></div>
+<script type="text/javascript">
+<!--
+jcomments.setAntiCache(1,0,0);
+//-->
+</script> 
+</div></div>
+<br>
+					&nbsp;
+							<div class="moduletable relacionados">
+							<h3>También te puede interesar. Relacionados:</h3>
+						<ul class="relateditems relacionados mod-list">
+<li>
+	<a href="http://www.karmany.net/ayuda-web/248-mostrar-pestana-programador-o-desarrollador-en-excel-2007-2010-y-2013">
+				Mostrar pestaña programador o desarrollador en Excel 2007, 2010 y 2013</a>
+</li>
+<li>
+	<a href="http://www.karmany.net/programacion-software/26-office/247-no-se-encontro-el-archivo-vba6-dll-en-excel-2007">
+				No se encontró el archivo VBA6.dll en Excel 2007</a>
+</li>
+<li>
+	<a href="http://www.karmany.net/programacion-software/26-office/156-excel-2007-2010-el-formato-condicional-y-vba-parte-i">
+				Excel 2007-2010. El formato condicional y VBA. (Parte I)</a>
+</li>
+<li>
+	<a href="http://www.karmany.net/programacion-software/26-office/144-excel-el-formato-e-y-la-desesperacion-de-los-mas-neofitos">
+				Excel: el formato E+ y la desesperación de los más neófitos</a>
+</li>
+<li>
+	<a href="http://www.karmany.net/programacion-software/26-office/90-excel-eliminar-1000-cuadros-texto">
+				Excel: eliminar 1000 cuadros de texto</a>
+</li>
+<li>
+	<a href="http://www.karmany.net/programacion-software/26-office/24-excel2007-lista-desplegable">
+				Excel 2007 - Lista desplegable</a>
+</li>
+</ul>
+		</div>
+	 
+				</div>
+			</div>
+					
+			<div class="clear-both"></div>
+		</div>
+		<div class="clear-both"></div>
+		
+	</div>
+	
+	<div class="barra_mnu">
+		<nav>
+		<div class="barra_enlaces">
+				<ul class="bar-bottom">
+					<li class="link-ir-arriba"><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#top" title="Sube al inicio de la página.">Ir arriba</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/ayuda-web/2-soporte-faq-contacto" target="_blank" title="Aviso legal, condiciones de uso, contacto.">Aviso legal</a></li>			
+					<li class="oculta"><a href="http://www.karmany.net/ayuda-web/164-novedades-en-la-web" target="_blank" title="En qué estamos trabajando, novedades, posibles problemas.">Novedades</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/" title="El Diseño de esta web ha sido realizado por: karmany.NET">Diseño web</a></li>
+					<li class="oculta"><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#" title="Nuestras redes sociales">Redes Sociales</a></li>
+				</ul>	
+		</div>
+		<div class="clear-both"></div>
+		</nav>
+	</div>
+	
+	<div class="valid-visit">
+		<div class="valid">
+					<a class="html5" href="https://validator.w3.org/check?uri=referer" target="_blank" title="Validar HTML5">
+						HTML5					</a>
+					<a class="css3" href="https://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fwww.karmany.net%2Ftemplates%2Fkarmany%2Fcss%2Ftemplate.css&amp;profile=css3&amp;usermedium=all&amp;warning=1&amp;vextwarning=false" target="_blank" title="Validar CSS3">
+						CSS3					</a>
+				</div>
+				<div class="moduletable_contador">
+						<div class="contador-visitas _contador">
+			<span>
+			<span class="texto-visitas">Visitas: </span>
+			<img alt="7" src="./Crear un calendario anual en Excel y VBA_files/7.png"><img alt="1" src="./Crear un calendario anual en Excel y VBA_files/1.png"><img alt="4" src="./Crear un calendario anual en Excel y VBA_files/4.png"><img alt="0" src="./Crear un calendario anual en Excel y VBA_files/0.png"><img alt="3" src="./Crear un calendario anual en Excel y VBA_files/3.png"><img alt="2" src="./Crear un calendario anual en Excel y VBA_files/2.png"><img alt="8" src="./Crear un calendario anual en Excel y VBA_files/8.png">		</span>
+	</div>		</div>
+	
+	</div><div class="clear-both"></div>
+</div><iframe name="__cmpLocator" style="display: none;" src="./Crear un calendario anual en Excel y VBA_files/saved_resource(1).html"></iframe>
+<div id="footer">
+	<div class="licencia">
+		<p><a href="http://www.karmany.net/" title="karmany.NET">www.karmany.NET</a> se distribuye,</p>
+		<p>mientras no exista indicación expresa contraria,</p>
+		<p>bajo <strong>Licencia Creative Commons</strong></p>
+		<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.es" target="_blank"><img alt="Licencia de Creative Commons" style="border-width:0" src="./Crear un calendario anual en Excel y VBA_files/88x31.png"></a><br></p>
+	</div>
+	<div class="footer_mnu">
+	<ul>
+	<li><span><a href="http://www.karmany.net/" title="Página principal">PORTADA</a></span>|</li>
+	<li><span><a href="http://www.karmany.net/programacion-software/26-office/297-crear-un-calendario-anual-en-excel-y-vba#top">ARRIBA</a></span>|</li>
+	<li><span><a href="http://www.karmany.net/sitemap-html" title="Sitemap, mapa del sitio">MAPA DEL SITIO</a></span></li>
+	</ul>
+	<p>« Aprender, enseñar y compartir conocimientos »</p>
+	<p>2009 - 2017</p>
+	</div>
+	<div class="clear-both">&nbsp;</div>
+</div>
+	
+<iframe scrolling="no" frameborder="0" allowtransparency="true" src="./Crear un calendario anual en Excel y VBA_files/widget_iframe.0ab153032b20288d9a500659d8c7ba17.html" title="Twitter settings iframe" style="display: none;"></iframe><iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: none;" title="Twitter analytics iframe" src="./Crear un calendario anual en Excel y VBA_files/saved_resource(2).html"></iframe><a class="qc-cmp-persistent-link" style="cursor: pointer; position: fixed; background-color: rgb(54, 139, 214); padding: 5px 15px; color: rgb(255, 255, 255); display: flex; align-items: center; max-height: 30px; z-index: 2147483640; bottom: 0px; right: 0px; border-top-left-radius: 3px; border-top-right-radius: 3px;"><svg width="16px" height="17px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin-right: 5px; height: 17px;"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="cog" fill="#FFFFFF" fill-rule="nonzero"><path d="M15.596917,9.98326938 L14.5041079,9.33798816 C14.5728064,8.7815386 14.5728064,8.2184614 14.5041079,7.66201184 L15.596917,7.01673062 C15.9178229,6.82726259 16.0726124,6.43742732 15.9670848,6.0741546 C15.5912871,4.78033611 14.9223646,3.61573153 14.0390021,2.66061113 C13.7831755,2.38401797 13.3749053,2.32348965 13.0525249,2.51384881 L11.9613243,3.15813608 C11.5248519,2.81840117 11.0481221,2.53648663 10.542482,2.31910255 L10.542482,1.02991108 C10.542482,0.648438733 10.2860522,0.316869683 9.92305592,0.229024792 C8.66155,-0.07632446 7.33871809,-0.0763587342 6.07694408,0.229024792 C5.71398131,0.316869683 5.457518,0.648404458 5.457518,1.02991108 L5.457518,2.31910255 C4.95187406,2.53647872 4.47514334,2.81839382 4.03867572,3.15813608 L2.94747511,2.51384881 C2.62506122,2.32348965 2.21679094,2.38401797 1.96099786,2.66061113 C1.07763542,3.61573153 0.40871289,4.78037038 0.0329152236,6.0741546 C-0.072612407,6.43742732 0.0821770899,6.82722832 0.403082962,7.01673062 L1.49589212,7.66201184 C1.42719356,8.2184614 1.42719356,8.7815386 1.49589212,9.33798816 L0.403082962,9.98326938 C0.0821770899,10.1727374 -0.072612407,10.5625727 0.0329152236,10.9258454 C0.40871289,12.2196296 1.07763542,13.3842685 1.96099786,14.3393889 C2.21682445,14.615982 2.62509474,14.6765103 2.94747511,14.4861855 L4.03867572,13.8418982 C4.47514096,14.1816349 4.95187243,14.4635389 5.457518,14.6808975 L5.457518,15.9700889 C5.457518,16.3515613 5.7139478,16.6831303 6.07694408,16.7709752 C7.33848351,17.0763245 8.66128191,17.0763587 9.92305592,16.7709752 C10.2860187,16.6831303 10.542482,16.3515955 10.542482,15.9700889 L10.542482,14.6808975 C11.0481183,14.4635198 11.5248475,14.1816171 11.9613243,13.8418982 L13.0525249,14.4861855 C13.3749053,14.6765446 13.7831755,14.6160163 14.0390021,14.3393889 C14.9223646,13.3842685 15.5912871,12.2196296 15.9670848,10.9258454 C16.0726124,10.5625727 15.9178229,10.1727717 15.596917,9.98326938 Z M13.4026193,13.4264943 L11.8507364,12.510001 C10.9463288,13.3007421 10.6255905,13.4997041 9.47011484,13.9172673 L9.47011484,15.7502196 C8.50024808,15.9548373 7.49975192,15.9548373 6.52988516,15.7502196 L6.52988516,13.9172673 C5.4031959,13.5101235 5.07699522,13.3210668 4.14926358,12.510001 L2.59738075,13.4264943 C1.9368696,12.6693763 1.43490124,11.7817076 1.12525522,10.8230912 L2.67780828,9.90659789 C2.4588108,8.69270694 2.45871027,8.30790999 2.67780828,7.09340211 L1.12525522,6.17690879 C1.43490124,5.21829242 1.93690311,4.33058946 2.59738075,3.57312864 L4.14926358,4.49030745 C5.0667072,3.68712478 5.39129933,3.4941265 6.52988516,3.08269846 L6.52988516,1.24978037 C7.49971774,1.04482059 8.50028226,1.04482059 9.47011484,1.24978037 L9.47011484,3.08273274 C10.6087677,3.49419505 10.9333933,3.6872276 11.8507364,4.49034172 L13.4026193,3.57316291 C14.0630969,4.33058946 14.5650988,5.21829242 14.8747448,6.17694306 L13.3221917,7.09343638 C13.5412227,8.3076358 13.5412897,8.69212428 13.3221917,9.90663217 L14.8747448,10.8231255 C14.5650988,11.7817076 14.0631304,12.6694105 13.4026193,13.4264943 Z M8,5.20968958 C6.22607014,5.20968958 4.78289853,6.68570996 4.78289853,8.50001714 C4.78289853,10.3143243 6.22607014,11.7903447 8,11.7903447 C9.77392986,11.7903447 11.2171015,10.3143243 11.2171015,8.50001714 C11.2171015,6.68570996 9.77392986,5.20968958 8,5.20968958 Z M8,10.6935688 C6.81738009,10.6935688 5.85526568,9.70955526 5.85526568,8.50001714 C5.85526568,7.29047902 6.81738009,6.30646543 8,6.30646543 C9.18261991,6.30646543 10.1447343,7.29047902 10.1447343,8.50001714 C10.1447343,9.70955526 9.18261991,10.6935688 8,10.6935688 Z" id="Shape"></path></g></g></svg>Privacidad</a><div style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;"><div style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;"></div><div class="g-recaptcha-bubble-arrow" style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;"></div><div class="g-recaptcha-bubble-arrow" style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;"></div><div style="z-index: 2000000000; position: relative;"><iframe title="Reto recaptcha" src="./Crear un calendario anual en Excel y VBA_files/bframe.html" name="c-d8rawzdjw7k8" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox" style="width: 100%; height: 100%;"></iframe></div></div></body></html>
